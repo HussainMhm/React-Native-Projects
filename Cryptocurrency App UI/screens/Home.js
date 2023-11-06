@@ -12,10 +12,11 @@ import {
 
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
 
-import { PriceAlert } from "../components";
+import { PriceAlert, TransactionHistory } from "../components";
 
 const Home = ({ navigation }) => {
     const [trending, setTrending] = useState(dummyData.trendingCurrencies);
+    const [transactionHistory, setTransactionHistory] = useState(dummyData.transactionHistory);
 
     function renderHeader() {
         const renderItem = ({ item, index }) => (
@@ -29,6 +30,7 @@ const Home = ({ navigation }) => {
                     borderRadius: 10,
                     backgroundColor: COLORS.white,
                 }}
+                onPress={() => navigation.navigate("CryptoDetail", { currency: item })}
             >
                 {/* Currency */}
                 <View style={{ flexDirection: "row" }}>
@@ -208,12 +210,22 @@ const Home = ({ navigation }) => {
         );
     }
 
+    function renderTransactionHistory() {
+        return (
+            <TransactionHistory
+                customContainerStyle={{ ...styles.shadow }}
+                history={transactionHistory}
+            />
+        );
+    }
+
     return (
         <ScrollView>
             <View style={{ flex: 1, paddingBottom: 130 }}>
                 {renderHeader()}
                 {renderAlert()}
                 {renderNotice()}
+                {renderTransactionHistory()}
             </View>
         </ScrollView>
     );
