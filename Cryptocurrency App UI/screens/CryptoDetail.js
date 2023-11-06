@@ -14,7 +14,7 @@ import { VictoryBar, VictoryScatter, VictoryLine, VictoryChart, VictoryAxis } fr
 import { VictorCustomTheme } from "../styles";
 
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
-import { CurrencyLabel, HeaderBar, TextButton } from "../components";
+import { CurrencyLabel, HeaderBar, PriceAlert, TextButton } from "../components";
 
 const CryptoDetail = ({ route, navigation }) => {
     const scrollX = new Animated.Value(0);
@@ -326,6 +326,37 @@ const CryptoDetail = ({ route, navigation }) => {
         );
     }
 
+    function renderAbout() {
+        return (
+            <View
+                style={{
+                    marginTop: SIZES.padding,
+                    marginHorizontal: SIZES.radius,
+                    padding: SIZES.radius,
+                    borderRadius: SIZES.radius,
+                    backgroundColor: COLORS.white,
+                    ...styles.shadow,
+                }}
+            >
+                <Text style={{ ...FONTS.h3 }}>About {selectedCurrency?.currency}</Text>
+                <Text style={{ marginTop: SIZES.base, ...FONTS.body3 }}>
+                    {selectedCurrency?.description}
+                </Text>
+            </View>
+        );
+    }
+
+    function renderAlert() {
+        return (
+            <PriceAlert
+                customContainerStyle={{
+                    marginTop: SIZES.padding,
+                    marginHorizontal: SIZES.radius,
+                }}
+            />
+        );
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightGray1 }}>
             <HeaderBar right={true} />
@@ -333,6 +364,8 @@ const CryptoDetail = ({ route, navigation }) => {
                 <View style={{ flex: 1, paddingBottom: SIZES.padding }}>
                     {renderChart()}
                     {renderBuy()}
+                    {renderAbout()}
+                    {renderAlert()}
                 </View>
             </ScrollView>
         </SafeAreaView>
