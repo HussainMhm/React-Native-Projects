@@ -62,7 +62,7 @@ const Transaction = ({ route }) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, ...styles.androidSafeArea }}>
             <HeaderBar right={false} />
             <ScrollView>
                 <View style={{ flex: 1, paddingBottom: SIZES.padding }}>
@@ -90,6 +90,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
 
         elevation: 8,
+    },
+    androidSafeArea: {
+        flex: 1,
+        marginTop: Platform.OS === "android" ? SIZES.padding * 1.5 : 0,
     },
 });
 
