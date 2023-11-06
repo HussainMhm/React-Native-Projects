@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     },
     androidSafeArea: {
         flex: 1,
-        marginTop: Platform.OS === "android" ? SIZES.padding * 1.5 : 0,
+        paddingTop: Platform.OS === "android" ? SIZES.padding * 1.5 : 0,
     },
 });
 
