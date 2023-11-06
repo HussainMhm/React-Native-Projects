@@ -306,7 +306,9 @@ const CryptoDetail = ({ route, navigation }) => {
                         customLabelStyle={{
                             ...FONTS.h3,
                         }}
-                        onPress={() => console.log("Buy")}
+                        onPress={() =>
+                            navigation.navigate("Transaction", { currency: selectedCurrency })
+                        }
                     />
 
                     <TextButton
@@ -319,7 +321,9 @@ const CryptoDetail = ({ route, navigation }) => {
                         customLabelStyle={{
                             ...FONTS.h3,
                         }}
-                        onPress={() => console.log("Sell")}
+                        onPress={() =>
+                            navigation.navigate("Transaction", { currency: selectedCurrency })
+                        }
                     />
                 </View>
             </View>
