@@ -67,7 +67,7 @@ const Tabs = () => {
             }}
         >
             <Tab.Screen
-                name="Home"
+                name="HomeTab"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) =>
@@ -75,7 +75,7 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Portfolio"
+                name="PortfolioTab"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) =>
@@ -83,7 +83,7 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Transaction"
+                name="TransactionTab"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -97,7 +97,7 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Prices"
+                name="PricesTab"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) =>
@@ -105,7 +105,7 @@ const Tabs = () => {
                 }}
             />
             <Tab.Screen
-                name="Settings"
+                name="SettingsTab"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) =>
