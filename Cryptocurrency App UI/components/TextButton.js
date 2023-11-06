@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { COLORS, FONTS } from "../constants";
+import { COLORS, FONTS, SIZES } from "../constants";
 
 const TextButton = ({ label, customContainerStyle, customLabelStyle, onPress }) => {
     return (
