@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, ImageBackground, Image } from "react-native";
+import { View, Text, ImageBackground, Image, Platform } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 import { COLORS, SIZES, FONTS, icons, images } from "../constants";
-import { HeaderBar, TextIconButton } from "../components";
+import { HeaderBar, Rating, TextButton, TextIconButton } from "../components";
 import MapStyle from "../styles/MapStyle";
 
 const Place = ({ route, navigation }) => {
@@ -147,6 +147,102 @@ const Place = ({ route, navigation }) => {
                                 </Marker>
                             ))}
                         </MapView>
+
+                        {/* Header */}
+                        <HeaderBar
+                            title={selectedPlace?.name}
+                            leftOnPress={() => _panel.hide()}
+                            right={true}
+                            containerStyle={{
+                                position: "absolute",
+                                top: SIZES.padding * 2,
+                            }}
+                        />
+
+                        {/* Hotel Details */}
+                        {selectedHotel && (
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    bottom: 30,
+                                    left: 0,
+                                    right: 0,
+                                    padding: SIZES.radius,
+                                }}
+                            >
+                                <Text style={{ color: COLORS.white, ...FONTS.h1 }}>
+                                    Hotels in {selectedPlace?.name}
+                                </Text>
+
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginTop: SIZES.radius,
+                                        padding: SIZES.radius,
+                                        borderRadius: 15,
+                                        backgroundColor: COLORS.transparentBlack1,
+                                    }}
+                                >
+                                    <Image
+                                        source={selectedHotel?.image}
+                                        resizeMode="cover"
+                                        style={{ width: 90, height: 120, borderRadius: 15 }}
+                                    />
+
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            marginLeft: SIZES.base,
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <Text style={{ color: COLORS.white, ...FONTS.h2 }}>
+                                            {selectedHotel?.name}
+                                        </Text>
+
+                                        <Rating
+                                            rate={selectedHotel?.rate}
+                                            containerStyle={{ marginTop: SIZES.base }}
+                                        />
+
+                                        <View
+                                            style={{
+                                                flexDirection: "row",
+                                                marginTop: SIZES.base,
+                                            }}
+                                        >
+                                            <TextButton
+                                                label="Details"
+                                                customContainerStyle={{
+                                                    marginTop: SIZES.base,
+                                                    height: 45,
+                                                    width: 100,
+                                                }}
+                                                customLabelStyle={{ ...FONTS.h3 }}
+                                                onPress={() => console.log("Details")}
+                                            />
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        color: COLORS.lightGray,
+                                                        ...FONTS.body4,
+                                                        fontSize: Platform.OS === "ios" ? 16 : 12,
+                                                    }}
+                                                >
+                                                    Starting from $ {selectedHotel?.price}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        )}
                     </View>
                 </View>
             </SlidingUpPanel>
