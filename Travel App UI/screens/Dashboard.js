@@ -13,6 +13,7 @@ import {
 
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
 import { ScrollView } from "react-native-gesture-handler";
+import { TextButton } from "../components";
 
 const COUNTRIES_ITEM_SIZE = SIZES.width / 3;
 const PLACES_ITEM_SIZE = Platform.OS === "ios" ? SIZES.width / 1.25 : SIZES.width / 1.2;
@@ -28,6 +29,8 @@ const Dashboard = ({ navigation }) => {
         ...dummyData.countries[0].places,
         { id: -2 },
     ]);
+
+    const [placesScrollPosition, setPlacesScrollPosition] = useState(0);
 
     function renderHeader() {
         return (
@@ -97,6 +100,15 @@ const Dashboard = ({ navigation }) => {
                     [{ nativeEvent: { contentOffset: { x: countryScrollX } } }],
                     { useNativeDriver: false }
                 )}
+                onMomentumScrollEnd={(event) => {
+                    // Calculate position
+                    var position = (
+                        event.nativeEvent.contentOffset.x / COUNTRIES_ITEM_SIZE
+                    ).toFixed(0);
+
+                    // Set Places
+                    setPlaces([{ id: -1 }, ...dummyData.countries[position].places, { id: -2 }]);
+                }}
                 renderItem={({ item, index }) => {
                     const opacity = countryScrollX.interpolate({
                         inputRange: [
@@ -180,6 +192,13 @@ const Dashboard = ({ navigation }) => {
         );
     }
 
+    function exploreButtonHandler() {
+        // Get places current index
+        const currentIndex = parseInt(placesScrollPosition, 10) + 1;
+        // Navigate to the next screen
+        navigation.navigate("Place", { selectedPlace: places[currentIndex] });
+    }
+
     function renderPlaces() {
         return (
             <Animated.FlatList
@@ -199,6 +218,15 @@ const Dashboard = ({ navigation }) => {
                     [{ nativeEvent: { contentOffset: { x: placesScrollX } } }],
                     { useNativeDriver: false }
                 )}
+                onMomentumScrollEnd={(event) => {
+                    // Calculate position
+                    var position = (event.nativeEvent.contentOffset.x / PLACES_ITEM_SIZE).toFixed(
+                        0
+                    );
+
+                    // Set Places Scroll Position
+                    setPlacesScrollPosition(position);
+                }}
                 renderItem={({ item, index }) => {
                     const opacity = placesScrollX.interpolate({
                         inputRange: [
@@ -291,6 +319,15 @@ const Dashboard = ({ navigation }) => {
                                     >
                                         {item.description}
                                     </Text>
+                                    <TextButton
+                                        label="Explore"
+                                        customContainerStyle={{
+                                            position: "absolute",
+                                            bottom: -20,
+                                            width: 150,
+                                        }}
+                                        onPress={() => exploreButtonHandler()}
+                                    />
                                 </View>
                             </Animated.View>
                         );
