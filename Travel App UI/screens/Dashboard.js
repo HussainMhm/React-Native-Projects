@@ -87,6 +87,7 @@ const Dashboard = ({ navigation }) => {
     function renderCountries() {
         return (
             <Animated.FlatList
+                // contentContainerStyle={{ backgroundColor: "blue" }} // ssssssss
                 horizontal
                 pagingEnabled
                 snapToAlignment="center"
@@ -181,12 +182,6 @@ const Dashboard = ({ navigation }) => {
                             </Animated.View>
                         );
                     }
-
-                    return (
-                        <View>
-                            <Text style={{ color: COLORS.white }}>{item.name} </Text>
-                        </View>
-                    );
                 }}
             />
         );
@@ -207,7 +202,7 @@ const Dashboard = ({ navigation }) => {
                 data={places}
                 keyExtractor={(item) => `${item.id}`}
                 contentContainerStyle={{
-                    alignItems: "center",
+                    marginTop: Platform.OS === "ios" ? SIZES.padding : 0,
                 }}
                 snapToAlignment="center"
                 snapToInterval={Platform.OS === "ios" ? PLACES_ITEM_SIZE + 28 : PLACES_ITEM_SIZE}
@@ -346,15 +341,15 @@ const Dashboard = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black, ...styles.androidsafearea }}>
             {renderHeader()}
-            <ScrollView contentContainerStyle={{ paddingBottom: Platform.OS === "ios" ? 40 : 0 }}>
-                <View style={{ height: 700 }}>
+            <ScrollView contentContainerStyle={{ paddingBottom: SIZES.padding * 4 }}>
+                <View style={{}}>
                     {/* Countries */}
                     {renderCountries()}
 
                     {/* Places */}
                     <View
                         style={{
-                            height: Platform.OS === "ios" ? 500 : 450,
+                            height: 500,
                         }}
                     >
                         {renderPlaces()}

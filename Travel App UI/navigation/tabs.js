@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, Image, TouchableOpacity, Text, StyleSheet, Platform } from "react-native";
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs";
 
 import { Dashboard } from "../screens";
@@ -21,7 +21,7 @@ const Tabs = () => {
                     elevation: 0,
                     backgroundColor: COLORS.black,
                     borderTopColor: "transparent",
-                    height: 100,
+                    height: Platform.OS === "android" ? 75 : 100,
                 },
             }}
         >
