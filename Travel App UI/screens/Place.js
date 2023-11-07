@@ -1,21 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, ImageBackground, Image, Platform } from "react-native";
+import { View, Text, ImageBackground, Image, Platform, Animated } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
-import { COLORS, SIZES, FONTS, icons, images } from "../constants";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import { HeaderBar, Rating, TextButton, TextIconButton } from "../components";
 import MapStyle from "../styles/MapStyle";
 
 const Place = ({ route, navigation }) => {
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [selectedHotel, setSelectedHotel] = useState(null);
+    const [allowDragging, setAllowDragging] = useState(true);
+
+    const _draggedValue = useRef(new Animated.Value(0)).current;
 
     let _panel = useRef(null);
 
     useEffect(() => {
         let { selectedPlace } = route.params;
-        setSelectedPlace(selectedPlace); // there might be a conflict here
+        setSelectedPlace(selectedPlace);
+
+        // Listener that will disable panel dragging whenever the mapview is shown
+        _draggedValue.addListener((valueObj) => {
+            if (valueObj.value > SIZES.height) {
+                setAllowDragging(false);
+            }
+        });
+
+        return () => {
+            _draggedValue.removeAllListeners();
+        };
     }, []);
 
     function renderPlace() {
@@ -88,11 +102,16 @@ const Place = ({ route, navigation }) => {
         return (
             <SlidingUpPanel
                 ref={(c) => (_panel = c)}
+                allowDragging={allowDragging}
                 draggableRange={{ top: SIZES.height + 120, bottom: 120 }}
+                animatedValue={_draggedValue}
                 showBackdrop={false}
                 snappingPoints={[SIZES.height + 120]}
                 height={SIZES.height + 120}
                 friction={0.7}
+                onBottomReached={() => {
+                    setAllowDragging(true);
+                }}
             >
                 <View style={{ flex: 1, backgroundColor: "transparent" }}>
                     {/* Panel Header */}
