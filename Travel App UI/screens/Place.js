@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ImageBackground } from "react-native";
+import { View, Text, ImageBackground, Image } from "react-native";
 
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import { HeaderBar } from "../components";
+import { COLORS, SIZES, FONTS, icons, images } from "../constants";
+import { HeaderBar, TextIconButton } from "../components";
 
 const Place = ({ route, navigation }) => {
     const [selectedPlace, setSelectedPlace] = useState(null);
@@ -26,6 +26,54 @@ const Place = ({ route, navigation }) => {
                         marginTop: SIZES.padding * 2,
                     }}
                 />
+
+                {/* Container */}
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: "flex-end",
+                        paddingHorizontal: SIZES.padding,
+                        marginBottom: 100,
+                    }}
+                >
+                    {/* Name and Ratings */}
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: SIZES.base,
+                        }}
+                    >
+                        <Text style={{ color: COLORS.white, ...FONTS.largeTitle }}>
+                            {selectedPlace?.name}
+                        </Text>
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Text style={{ color: COLORS.white, ...FONTS.h2, marginRight: 8 }}>
+                                {selectedPlace?.rate}
+                            </Text>
+                            <Image
+                                source={icons.star}
+                                resizeMode="contain"
+                                style={{ width: 20, height: 20 }}
+                            />
+                        </View>
+                    </View>
+
+                    {/* Description */}
+                    <Text style={{ color: COLORS.white, ...FONTS.body3 }}>
+                        {selectedPlace?.description}
+                    </Text>
+
+                    {/* Button */}
+                    <TextIconButton
+                        label="Book a flight"
+                        icon={icons.aeroplane}
+                        customLabelStyle={{ ...FONTS.h2 }}
+                        customContainerStyle={{ marginTop: SIZES.padding }}
+                        onPress={() => console.log("Book a flight")}
+                    />
+                </View>
             </ImageBackground>
         );
     }
