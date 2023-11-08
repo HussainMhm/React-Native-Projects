@@ -30,7 +30,7 @@ const MovieDetail = ({ navigation, route }) => {
                     flexDirection: "row",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    marginTop: Platform.OS === "ios" ? 40 : 20,
+                    marginTop: SIZES.padding * 2,
                     paddingHorizontal: SIZES.padding,
                 }}
             >
@@ -290,7 +290,10 @@ const MovieDetail = ({ navigation, route }) => {
 
     return (
         <ScrollView
-            contentContainerStyle={{ flex: 1, backgroundColor: COLORS.black }}
+            contentContainerStyle={{
+                flex: 1,
+                backgroundColor: COLORS.black,
+            }}
             style={{ backgroundColor: COLORS.black }}
         >
             {/* Header */}
@@ -301,9 +304,6 @@ const MovieDetail = ({ navigation, route }) => {
 
             {/* Movie Details */}
             {renderMovieDetails()}
-
-            {/* Watch Button */}
-            {/* {renderWatchButton()} */}
         </ScrollView>
     );
 };

@@ -14,6 +14,7 @@ import {
 
 import { Profiles, ProgressBar } from "../components";
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
+import { StyleSheet } from "react-native";
 
 const Home = ({ navigation }) => {
     const newSeasonScrollX = useRef(new Animated.Value(0)).current;
@@ -335,7 +336,7 @@ const Home = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black, ...styles.androidSafeArea }}>
             {renderHeader()}
             <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
                 {renderNewSeasonSection()}
@@ -345,5 +346,13 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    androidSafeArea: {
+        flex: 1,
+        backgroundColor: COLORS.black,
+        paddingTop: Platform.OS === "android" ? SIZES.padding * 2 : 0,
+    },
+});
 
 export default Home;
