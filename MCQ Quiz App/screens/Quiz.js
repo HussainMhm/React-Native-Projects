@@ -291,22 +291,6 @@ const Quiz = () => {
 
                 {/* Score Modal */}
                 {renderScoreModal()}
-
-                {/* Background Image */}
-                <Image
-                    source={require("../assets/images/DottedBG.png")}
-                    style={{
-                        width: SIZES.width,
-                        height: 130,
-                        zIndex: -1,
-                        position: "absolute",
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        opacity: 0.5,
-                    }}
-                    resizeMode="contain"
-                />
             </View>
         </SafeAreaView>
     );
