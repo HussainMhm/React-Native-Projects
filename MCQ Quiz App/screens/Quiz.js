@@ -16,10 +16,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const Quiz = () => {
     const allQuestions = data;
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
     const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
     const [correctOption, setCorrectOption] = useState(null);
     const [isOptionsDisabled, setIsOptionsDisabled] = useState(false);
+
     const [score, setScore] = useState(0);
+
     const [showNextButton, setShowNextButton] = useState(false);
     const [showScoreModal, setShowScoreModal] = useState(false);
 
@@ -33,13 +36,21 @@ const Quiz = () => {
             // Set Score
             setScore(score + 1);
         }
+
+        // Animate Progress Bar
+        Animated.timing(progress, {
+            toValue: currentQuestionIndex + 1,
+            duration: 1000,
+            useNativeDriver: false,
+        }).start();
+
         // Show Next Button
         setShowNextButton(true);
     }
 
     function renderQuestion() {
         return (
-            <View>
+            <View style={{ marginVertical: 32 }}>
                 {/* Question Counter */}
                 <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
                     <Text
@@ -62,7 +73,7 @@ const Quiz = () => {
 
     function renderOptions() {
         return (
-            <View style={{ marginTop: 12 }}>
+            <View>
                 {allQuestions[currentQuestionIndex].options.map((option, index) => {
                     return (
                         <TouchableOpacity
@@ -185,6 +196,12 @@ const Quiz = () => {
         setIsOptionsDisabled(false);
         setScore(0);
         setShowNextButton(false);
+
+        Animated.timing(progress, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: false,
+        }).start();
     }
 
     function renderScoreModal() {
@@ -266,6 +283,37 @@ const Quiz = () => {
         );
     }
 
+    const [progress, setProgress] = useState(new Animated.Value(0));
+    const progressAnimation = progress.interpolate({
+        inputRange: [0, allQuestions.length],
+        outputRange: ["0%", "100%"],
+        // extrapolate: "clamp",
+    });
+
+    function renderProgressBar() {
+        return (
+            <View
+                style={{
+                    width: "100%",
+                    height: 20,
+                    borderRadius: 20,
+                    backgroundColor: COLORS.secondary + "20",
+                }}
+            >
+                <Animated.View
+                    style={[
+                        {
+                            height: 20,
+                            borderRadius: 20,
+                            backgroundColor: COLORS.accent,
+                        },
+                        { width: progressAnimation },
+                    ]}
+                ></Animated.View>
+            </View>
+        );
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
             <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
@@ -279,6 +327,7 @@ const Quiz = () => {
                 }}
             >
                 {/* Progress Bar */}
+                {renderProgressBar()}
 
                 {/* Question */}
                 {renderQuestion()}
