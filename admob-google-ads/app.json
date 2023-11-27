@@ -1,0 +1,39 @@
+{
+    "expo": {
+        "name": "admob-google-ads",
+        "slug": "admob-google-ads",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.hussainmhm.admobgoogleads"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.hussainmhm.admobgoogleads"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "323faac4-ffa8-42f9-b416-8d0b7921e9f3"
+            }
+        }
+    },
+    "react-native-google-mobile-ads": {
+        "android_app_id": "ca-app-pub-8529953026945573~5940106284",
+        "ios_app_id": "ca-app-pub-8529953026945573~2442046107"
+    }
+}
