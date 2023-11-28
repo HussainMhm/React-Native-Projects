@@ -11,14 +11,14 @@ import {
 } from "react-native-google-mobile-ads";
 import CustomButton from "./components/CustomButton";
 
+// Define ad unit IDs for banner, interstitial, and rewarded ads
 const bannerAdUnitId = __DEV__ ? TestIds.BANNER : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
-
 const interstitialAdUnitId = __DEV__
     ? TestIds.INTERSTITIAL
     : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
-
 const RewardedAdUnitId = __DEV__ ? TestIds.REWARDED : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
 
+// Create instances of interstitial and rewarded ads with ad request configurations
 const interstitial = InterstitialAd.createForAdRequest(interstitialAdUnitId, {
     requestNonPersonalizedAdsOnly: true,
     keywords: ["fashion", "clothing"],
@@ -30,10 +30,13 @@ const rewarded = RewardedAd.createForAdRequest(RewardedAdUnitId, {
 });
 
 export default function App() {
+    // State to track if the interstitial and rewarded ads are loaded
     const [interstitialLoaded, setInterstitialLoaded] = useState(false);
     const [rewardedLoaded, setRewardedLoaded] = useState(false);
 
+    // Effect to handle interstitial ad loading and event subscription
     useEffect(() => {
+        // Subscribe to the LOADED event for the interstitial ad
         const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
             setInterstitialLoaded(true);
         });
@@ -45,10 +48,14 @@ export default function App() {
         return unsubscribe;
     }, []);
 
+    // Effect to handle rewarded ad loading and event subscription
     useEffect(() => {
+        // Subscribe to the LOADED event for the rewarded ad
         const unsubscribeLoaded = rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
             setRewardedLoaded(true);
         });
+
+        // Subscribe to the EARNED_REWARD event for the rewarded ad
         const unsubscribeEarned = rewarded.addAdEventListener(
             RewardedAdEventType.EARNED_REWARD,
             (reward) => {
