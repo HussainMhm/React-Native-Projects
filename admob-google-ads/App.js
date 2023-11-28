@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import {
@@ -7,6 +6,8 @@ import {
     TestIds,
     InterstitialAd,
     AdEventType,
+    RewardedAd,
+    RewardedAdEventType,
 } from "react-native-google-mobile-ads";
 import CustomButton from "./components/CustomButton";
 
@@ -16,13 +17,21 @@ const interstitialAdUnitId = __DEV__
     ? TestIds.INTERSTITIAL
     : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
 
+const RewardedAdUnitId = __DEV__ ? TestIds.REWARDED : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
+
 const interstitial = InterstitialAd.createForAdRequest(interstitialAdUnitId, {
+    requestNonPersonalizedAdsOnly: true,
+    keywords: ["fashion", "clothing"],
+});
+
+const rewarded = RewardedAd.createForAdRequest(RewardedAdUnitId, {
     requestNonPersonalizedAdsOnly: true,
     keywords: ["fashion", "clothing"],
 });
 
 export default function App() {
     const [interstitialLoaded, setInterstitialLoaded] = useState(false);
+    const [rewardedLoaded, setRewardedLoaded] = useState(false);
 
     useEffect(() => {
         const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
@@ -36,8 +45,30 @@ export default function App() {
         return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        const unsubscribeLoaded = rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => {
+            setRewardedLoaded(true);
+        });
+        const unsubscribeEarned = rewarded.addAdEventListener(
+            RewardedAdEventType.EARNED_REWARD,
+            (reward) => {
+                console.log("User earned reward of ", reward);
+            }
+        );
+
+        // Start loading the rewarded ad straight away
+        rewarded.load();
+
+        // Unsubscribe from events on unmount
+        return () => {
+            unsubscribeLoaded();
+            unsubscribeEarned();
+        };
+    }, []);
+
     return (
         <View style={styles.container}>
+            {/* Banner Ad */}
             <Text style={styles.title}>Banner Ad</Text>
             <BannerAd
                 unitId={bannerAdUnitId}
@@ -47,8 +78,8 @@ export default function App() {
                 }}
             />
 
+            {/* Interstitial Ad */}
             <Text style={styles.title}>Interstitial Ad</Text>
-
             {interstitialLoaded ? (
                 <CustomButton
                     title="Show Interstitial"
@@ -59,6 +90,15 @@ export default function App() {
             ) : (
                 <Text>Loading Interstitial Ad..</Text>
             )}
+
+            {/* Rewarded Ad */}
+            <Text style={styles.title}>Rewarded Ad</Text>
+            <CustomButton
+                title="Show Rewarded"
+                onPress={() => {
+                    rewarded.show();
+                }}
+            />
         </View>
     );
 }
